@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.symbian.smt.gui" default="build.jar" basedir="../.">
+
+	<!-- The epoc.build property specifies the temp location for build files 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored.
+		 NOTE: Do not use this directly - use build.dir instead -->
+	<property name="epoc.build" value="${basedir}"/>
+	
+	<!-- The tools.rel property specifies the releease location for binaries 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored -->
+	<property name="tools.rel" value="${basedir}"/>
+
+	<property name="release.folder" value="${tools.rel}\dist\smtgui" /> 
+	<property name="current.version" value="1.1.6" />
+	
+	<property name="jar.folder" value="${epoc.build}/jars/" />
+	<property name="instr.jar.folder" value="${jar.folder}/instr/" />
+
+	<property name="test.folder" value="${epoc.build}/testreports" />
+	
+	<property name="zip.folder" value="${epoc.build}/zips/" />
+	<property name="eclipse.folder" value="${epoc.build}/eclipse/" />
+	<property name="rel.jar.folder" value="${jar.folder}/rel/" />
+	
+	<property name="reportutil.folder" value="${epoc.build}/reportutil" />
+	
+	<property name="shared.lib.dir" location="${tools.rel}/java/lib"/>
+	
+	<target name="clean">
+	
+		<delete dir="${release.folder}"/>
+		
+		<ant antfile="${basedir}/com.symbian.smt.gui/build.xml" target="clean" inheritall="false" >
+		
+			<property name="release.folder" value="${release.folder}" /> 
+			
+		</ant>
+		
+		<ant antfile="${basedir}/com.symbian.smt.gui.properties/build.xml" target="clean" inheritall="false" >
+		
+			<property name="release.folder" value="${release.folder}" /> 
+			
+		</ant>
+		
+		<ant antfile="${basedir}/com.symbian.smt.gui.unittest/build.xml" target="clean" inheritall="false" />
+
+	</target>
+	
+	<target name="build.release">
+	
+		<mkdir dir="${release.folder}"/>
+			
+		<ant antfile="${basedir}/com.symbian.smt.gui/build.xml" target="build.update.jar" inheritall="false">
+		
+			<property name="version" value="${current.version}" />
+				
+			<property name="release.folder" value="${release.folder}" /> 
+			
+		</ant>
+			
+		<ant antfile="${basedir}/com.symbian.smt.gui.properties/build.xml" target="zip.plugin" inheritall="false">
+				
+			<property name="release.folder" value="${release.folder}" /> 
+			
+		</ant>	
+			
+	</target>
+	
+	<target name="build.all">
+	
+		<mkdir dir="${release.folder}"/>
+			
+		<ant antfile="${basedir}/com.symbian.smt.gui/build.xml" target="instrument.jars" inheritall="false">
+		
+			<property name="version" value="${current.version}" />
+			
+			<property name="jars.instr.dir" value="${instr.jar.folder}" /> 
+			
+			<property name="release.folder" value="${release.folder}" /> 
+			
+		</ant>
+			
+	</target>
+	
+	<target name="build.tests">
+	
+		<ant antfile="${basedir}/com.symbian.smt.gui.unittest/build.xml" target="@dot" inheritall="false" />
+		
+	</target>
+	
+	
+	<target name="run.junit">
+	
+		<ant antfile="${basedir}/com.symbian.smt.gui.unittest/buildtest.xml" target="run.junit" inheritall="false">
+		
+			<property name="jars" value="${instr.jar.folder}" />
+			
+			<property name="version" value="${current.version}" />
+			
+		</ant>
+		
+	</target>
+	
+	<target name="build.jar">
+	
+		<antcall target="clean" />
+		
+		<antcall target="build.release" />
+		
+	</target>
+	
+	<target name="all">
+
+		<antcall target="clean" />
+		
+		<antcall target="build.all" />
+		
+		<antcall target="build.tests" />
+		
+		<antcall target="run.junit" />
+		
+		<antcall target="collect.results" />
+		
+		<antcall target="generate.reports" />
+		
+	</target>
+
+	<path id="emma.lib">
+		<pathelement location="${shared.lib.dir}/emma.jar" />
+		<pathelement location="${shared.lib.dir}/emma_ant.jar" />
+	</path>
+	<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+	
+	<target name="collect.results">
+		<delete dir="${test.folder}" />
+		<mkdir dir="${test.folder}" />
+
+		<ant antfile="${basedir}/com.symbian.smt.gui/build.xml" target="gather.results" inheritall="false">
+			<property name="destination.results.folder" value="${test.folder}/smt/results" />
+		</ant>
+
+		<ant antfile="${basedir}/com.symbian.smt.gui.unittest/buildtest.xml" target="gather.results" inheritall="false">
+			<property name="destination.results.folder" value="${test.folder}/smt/results" />
+		</ant>
+		
+	</target>
+	
+	<target name="generate.reports">
+		<mkdir dir="${test.folder}\complete" />
+		<mkdir dir="${test.folder}\complete\Junit" />
+		<mkdir dir="${test.folder}\complete\coverage" />
+		<mkdir dir="${test.folder}\complete\coverage\util" />
+
+		<junitreport todir="${test.folder}\complete\Junit">
+			<fileset dir="${test.folder}">
+				<include name="**\*TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.folder}\complete\Junit" />
+		</junitreport>
+		<copy file="${test.folder}\complete\Junit\index.html" tofile="${test.folder}\complete\Junit\JunitTestReport.html" />
+		<path id="emma.src">
+			<pathelement location="${basedir}/com.symbian.smt.gui/src" />
+			<pathelement location="${basedir}/com.symbian.smt.gui.unittest/src" />
+		</path>
+		<emma>
+			<report sourcepathref="emma.src" depth="method">
+				<infileset dir="${test.folder}">
+					<include name="**\*.em*" />
+					<include name="**\*.ec" />
+				</infileset>
+				<html outfile="${test.folder}\complete\coverage\EmmaCoverageReport.html" />
+			</report>
+		</emma>
+	</target>
+
+	<target name="what" description="Prints out all releasables">
+	
+		<echo message="${release.folder}\com.symbian.smt.gui_${current.version}.jar" />
+		
+		<echo message="${release.folder}\com.symbian.smt.gui.properties\META-INF\MANIFEST.MF" />
+		
+	</target>
+	
+	
+</project>

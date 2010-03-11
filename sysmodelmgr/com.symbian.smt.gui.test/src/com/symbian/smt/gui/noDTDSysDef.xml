@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<SystemDefinition name="TCL" schema="2.0.0">
+	<systemModel>
+		<layer name="Unclassified">
+			<collection name="foo1">
+				<component name="foo2" filter="foo1">
+					<unit mrp="an.mrp"/>
+				</component>
+			</collection>
+		</layer>
+		<layer name="bar1">
+			<block name="bar2">
+				<collection name="bar3">
+					<component name="bar4" filter="bar1">
+						<unit mrp="another.mrp"/>
+					</component>
+				</collection>
+			</block>
+		</layer>
+		<layer name="bash" levels="low">
+			<block name="bash2" level="low">
+				<collection name="bash2">
+					<component name="bash3" filter="bash4">
+						<unit mrp="yetanother.mrp"/>
+					</component>
+				</collection>
+				<collection name="bash5">
+					<component name="bash6" filter="bash4">
+						<unit bldFile="group" mrp="fudge.mrp"/>
+					</component>
+				</collection>
+			</block>
+		</layer>
+	</systemModel>
+</SystemDefinition>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension
+		point="org.eclipse.ui.perspectives">
+		<perspective
+			name="System Model Manager"
+			class="com.symbian.smt.gui.perspective.Perspective"
+			id="com.symbian.smt.gui.perspective"
+			icon="icons/SMM_16px_Icons.png">
+		</perspective>
+	</extension>
+	<extension
+		point="org.eclipse.ui.ide.projectNatureImages">
+		<image
+			id="com.symbian.smt.gui.natureimage"
+			icon="icons/SMM_16px_Icons.png"
+			natureId="com.symbian.smt.gui.nature">
+		</image>
+	</extension>
+	<extension
+		id="nature"
+		name="System Model Manager Nature"
+		point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run
+				class="com.symbian.smt.gui.nature.Nature">
+			</run>
+		</runtime>         
+	</extension>  
+	<extension
+		point="org.eclipse.ui.newWizards">
+		<category
+			name="System Model Manager"
+			id="com.symbian.smt.gui">
+		</category>
+		<wizard
+			name="System Model Diagram"
+			class="com.symbian.smt.gui.wizard.NewSMTProjectWizard"
+			id="com.symbian.smt.gui.wizard.NewSMTProjectWizard"
+			project="true"
+			icon="icons/System_model_16px_Icon.png"
+			category="com.symbian.smt.gui"
+			finalPerspective="com.symbian.smt.gui.perspective">
+		</wizard>
+	</extension>
+	<extension
+		name="System Model Manager Builder"
+		id="builder"
+		point="org.eclipse.core.resources.builders">
+		<builder hasNature="false">
+			<run 
+				class="com.symbian.smt.gui.builder.Builder">
+			</run>
+		</builder>	
+	</extension>
+	<extension 
+		point="org.eclipse.ui.preferencePages">
+		<page
+			name="System Model Manager"
+			class="com.symbian.smt.gui.preferences.SmmPreferences"
+			id="com.symbian.smt.gui.preferences">
+		</page>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.BuildPreferences"
+        id="com.symbian.smt.gui.buildpreferences"
+        name="Build Options"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.LabelPreferences"
+        id="com.symbian.smt.gui.labelspreferences"
+        name="Labels"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.ResourcesPreferences"
+        id="com.symbian.smt.gui.resourcespreferences"
+        name="Resources"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.ModelControlPreferences"
+        id="com.symbian.smt.gui.modelcontrolpreferences"
+        name="Model Control"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.IgnorePreferences"
+        id="com.symbian.smt.gui.ignorepreferences"
+        name="Ignore List"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.FilterPreferences"
+        id="com.symbian.smt.gui.filterpreferences"
+        name="Filters"/>
+  <page
+        category="com.symbian.smt.gui.preferences"
+        class="com.symbian.smt.gui.preferences.AdvancedOptionsPreferences"
+        id="com.symbian.smt.gui.advancedoptionspreferences"
+        name="Advanced Options"/>
+	</extension>
+	<extension
+	point="org.eclipse.ui.propertyPages">
+		<page
+			name="System Model Manager"
+			class="com.symbian.smt.gui.properties.SystemDefinitionFilesProperties"
+			id="com.symbian.smt.gui.properties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+		<page
+			name="Labels"
+			class="com.symbian.smt.gui.properties.ModelLabelProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.ModelLabelProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+		<page
+			name="Resources"
+			class="com.symbian.smt.gui.properties.ResourceProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.ResourceProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+		<page
+			name="Model Control"
+			class="com.symbian.smt.gui.properties.ModelControlProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.ModelControlProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+		<page
+			name="Filters"
+			class="com.symbian.smt.gui.properties.FilterProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.FilterProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+		<page
+			name="Ignore List"
+			class="com.symbian.smt.gui.properties.IgnoreProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.IgnoreProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+  <page
+        adaptable="true"
+        category="com.symbian.smt.gui.properties"
+        class="com.symbian.smt.gui.properties.BuildControlProperties"
+        id="com.symbian.smt.gui.properties.BuildProperties"
+        name="Build Options"
+        objectClass="org.eclipse.core.resources.IProject">
+     <filter
+           name="nature"
+           value="com.symbian.smt.gui.nature"/>
+  </page>
+  		<page
+			name="Advanced Options"
+			class="com.symbian.smt.gui.properties.AdvancedOptionsProperties"
+			category="com.symbian.smt.gui.properties"
+			id="com.symbian.smt.gui.properties.AdvancedOptionsProperties"
+			objectClass="org.eclipse.core.resources.IProject"
+			adaptable="true">
+			<filter 
+				name="nature" 
+				value="com.symbian.smt.gui.nature"/>
+		</page>
+	</extension> 
+	<extension 
+		name="preferences"
+		id="preferences"
+		point="org.eclipse.core.runtime.preferences">
+		<scope 
+			name="project" 
+			class="org.eclipse.core.internal.resources.ProjectPreferences"/>
+        <initializer class="com.symbian.smt.gui.preferences.SmmPreferencesInitializer"/>
+	</extension>
+	<extension
+		point="org.eclipse.ui.views">
+		<view
+			name="System Model Manager Console Output"
+			class="com.symbian.smt.gui.views.ConsoleOutput"
+			id="com.symbian.smt.gui.views.consoleoutput"/>
+	</extension>
+	<extension
+		point="org.eclipse.ui.editors"> 
+		<editor
+			name="System Model Manager"
+			class="com.symbian.smt.gui.editors.svgeditor.SVGEditor"
+			id="com.symbian.smt.gui.editors.svgeditor"
+			contributorClass="com.symbian.smt.gui.editors.svgeditor.SVGEditorContributor"
+			extensions="svg"
+			icon="icons/System_model_16px_Icon.png"/>
+	</extension>
+	<extension
+		point="org.eclipse.ui.exportWizards">
+		<category
+			name="System Model Manager"
+			id="com.symbian.smt.gui"/>
+		<wizard
+		    class="com.symbian.smt.gui.exportwizards.ExportSystemModelDiagram"
+		    id="com.symbian.smt.gui.exportwizards.exportsystemmodeldiagram"
+		    category="com.symbian.smt.gui"
+		    icon="icons/System_model_16px_Icon.png"
+		    name="System Model Diagram"/>
+	</extension>
+	<extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            lightweight="true"
+            location="TOP_LEFT"
+            adaptable="true"
+            label="SMM Decorator"
+            icon="icons/System_model_16px_Icon.png"
+            state="false"
+            id="com.symbian.smt.gui.outofsyncdecorator"
+            class="com.symbian.smt.gui.OutOfSyncDecorator">
+      </decorator>
+ 	</extension>
+ 	<extension
+         point="org.eclipse.ui.startup">
+    	 <startup class="com.symbian.smt.gui.StartupClass"/>
+    </extension>
+    <extension 
+    	point="org.eclipse.core.expressions.propertyTesters">
+    	<propertyTester
+      		id="com.symbian.smt.gui.IFileTester"
+      		type="org.eclipse.core.resources.IFile"
+      		namespace="com.symbian.smt.gui"
+      		properties="belongsToSMMProject"
+      		class="com.symbian.smt.gui.FileTester">
+    	</propertyTester>
+    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="SMM XML Editor"
+            extensions="xml"
+            icon="icons/XMLFile.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="com.symbian.smt.gui.editors.xmleditor.XMLEditor"
+            id="com.symbian.smt.gui.editors.xmleditor.XMLEditor"
+            default="true">
+      </editor>
+   </extension>
+</plugin>

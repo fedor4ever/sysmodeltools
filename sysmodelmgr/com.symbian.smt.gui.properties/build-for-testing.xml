@@ -1,0 +1,79 @@
+<!-- Build file for testing the com.symbian.smt.gui.properties plugin -->
+<project name="com.symbian.smt.gui" default="help" basedir=".">
+    <property name="plugin.dir"               location="${basedir}"/>
+    <property name="projects.dir"             location="${basedir}/.."/>
+    <property file="${projects.dir}/project.properties"/>
+
+    <property name="plugin.name"              value="com.symbian.smt.gui.properties"/>
+    <property name="plugin.version"           value="1.1.1"/>
+    <property name="test.eclipse.dir"         location="c:/opt/eclipse-for-pde-unit-tests"/>
+    <property name="target.dir"               location="${projects.dir}/target"/>
+    <property name="published.plugins.dir"    location="${target.dir}/plugins"/>
+    <property name="src.dir"                  location="${plugin.dir}"/>
+    <property name="test.dir"                 location="${plugin.dir}/test"/>
+    <property name="plugin.target.dir"        location="${plugin.dir}/target"/>
+    <property name="reports.dir"              location="${plugin.target.dir}/reports"/>
+    <property name="classes.dir"              location="${plugin.target.dir}/classes"/>
+    
+    <path id="build.class.path">
+        <fileset dir="${test.eclipse.dir}/plugins">
+            <include name="org.eclipse.ui_3.4*.jar"/>
+            <include name="org.eclipse.ui.workbench_3.4*.jar"/>
+            <include name="org.eclipse.core.runtime_3.4*.jar"/>
+            <include name="org.eclipse.core.resources_3.4*.jar"/>
+            <include name="org.eclipse.jface_3.4*.jar"/>
+            <include name="org.eclipse.osgi_3.4*.jar"/>
+            <include name="org.eclipse.swt_3.4*.jar"/>
+            <include name="org.eclipse.swt.win32.win32.x86_3.4*.jar"/>
+        	<include name="org.eclipse.equinox.preferences_3.2*.jar"/>
+        	<include name="org.eclipse.equinox.common_3.4*.jar"/>
+        	<include name="org.eclipse.equinox.registry_3.4*.jar"/>
+        	<include name="org.eclipse.ui.ide_3.4*.jar"/>
+        	<include name="org.eclipse.core.jobs_3.4*.jar"/>
+        	<include name="org.eclipse.core.commands_3.4*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean">
+        <delete dir="${plugin.dir}/bin"/>
+        <delete dir="${plugin.target.dir}"/>
+    </target>
+
+    <target name="build">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="${deprecation}" classpathref="build.class.path" includeantruntime="false"/>
+      <antcall target="create_eclipse_plugin"/>
+        <copy todir="${published.plugins.dir}" file="${plugin.target.dir}/${plugin.name}_${plugin.version}.jar" overwrite="true"/>
+    </target>
+
+    <target name="create_eclipse_plugin">    	
+        <property file="${plugin.dir}/build.properties"/>
+        <delete file="${plugin.target.dir}/${plugin.name}_${plugin.version}.jar"/>
+        <zip destfile="${plugin.target.dir}/${plugin.name}_${plugin.version}.jar">
+            <zipfileset dir="." includes="${bin.includes}, location.properties"/>
+            <!--<zipfileset dir="${classes.dir}"/>-->
+        </zip>
+    </target>
+
+    <target name="test">
+        <!-- no regular junit test -->
+    </target>
+
+    <target name="help">
+        <echo>
+This is the overall Ant build file for the com.symbian.smt.gui.prpoerties PDE Test projects.
+
+Usage:
+
+Target                      Description
+==============              ==============================================
+[default]                   Displays this message.
+
+build                       Builds the source and creates the plugin jar.
+
+clean                       Cleans all the build and generated artefacts.
+        </echo>
+    </target>
+
+</project>
+

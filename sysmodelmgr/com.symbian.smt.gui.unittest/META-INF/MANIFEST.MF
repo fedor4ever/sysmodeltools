@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Unittest Plug-in
+Bundle-SymbolicName: com.symbian.smt.gui.unittest
+Bundle-Version: 1.1.1
+Bundle-Activator: com.symbian.smt.gui.unittest.Activator
+Bundle-Vendor: Nokia Corporation
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.console,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.navigator
+Bundle-ActivationPolicy: lazy

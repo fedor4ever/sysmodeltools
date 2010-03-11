@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: System Model Manager Properties
+Bundle-SymbolicName: com.symbian.smt.gui.properties
+Bundle-Version: 1.1.1
+Bundle-Vendor: Nokia Corporation
+Fragment-Host: com.symbian.smt.gui;bundle-version="0.0.1"
+Bundle-Localization: plugin

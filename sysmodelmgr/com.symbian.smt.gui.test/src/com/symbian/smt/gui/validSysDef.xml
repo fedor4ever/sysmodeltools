@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE SystemDefinition [
+<!ELEMENT SystemDefinition ( systemModel )>
+<!ATTLIST SystemDefinition
+  name CDATA #REQUIRED
+  schema CDATA #REQUIRED
+>
+<!-- all paths are relative to the environment variable specified by the root attribute, or SOURCEROOT if not.  -->
+
+<!-- System Model Section of DTD -->
+<!ELEMENT systemModel (layer+)>
+
+<!ELEMENT layer (block* | collection*)*>
+<!-- Kernel Services, Base Services, OS Services, Etc -->
+<!ATTLIST layer
+  name CDATA #REQUIRED
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED
+>
+
+<!ELEMENT block (subblock* | collection*)*>
+ <!-- Generic OS services, Comms Services, etc -->
+<!ATTLIST block
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED
+  level NMTOKEN #IMPLIED
+  name CDATA #REQUIRED
+>
+
+<!ELEMENT subblock (collection)*>
+<!-- Cellular Baseband Services, Networking Services, etc -->
+<!ATTLIST subblock
+  name CDATA #REQUIRED
+>
+
+<!ELEMENT collection (component)*>
+<!-- Screen Driver, Content Handling, etc -->
+<!ATTLIST collection
+  name CDATA #REQUIRED
+  level NMTOKEN #IMPLIED
+>
+
+<!ELEMENT component (unit)*>
+<!-- contains units or is a  package or prebuilt -->
+<!ATTLIST component
+  name CDATA #REQUIRED
+  deprecated CDATA #IMPLIED
+  introduced CDATA #IMPLIED
+  contract CDATA #IMPLIED
+  plugin (Y|N) "N"
+  filter CDATA #IMPLIED
+  class NMTOKENS #IMPLIED
+  supports CDATA #IMPLIED
+>
+
+<!ELEMENT unit EMPTY >
+<!-- must be buildable (bld.inf) -->
+<!-- bldFile  may someday be removed in favour of mrp -->
+<!ATTLIST unit
+  mrp CDATA #IMPLIED
+  filter CDATA #IMPLIED
+  bldFile CDATA #IMPLIED
+  root CDATA #IMPLIED
+  version NMTOKEN #IMPLIED
+  prebuilt NMTOKEN #IMPLIED
+  late (Y|N) #IMPLIED
+  priority CDATA #IMPLIED
+>
+
+]>
+<SystemDefinition name="TCL" schema="2.0.0">
+	<systemModel>
+		<layer name="Unclassified">
+			<collection name="foo1">
+				<component name="foo2" filter="foo1">
+					<unit mrp="an.mrp"/>
+				</component>
+			</collection>
+		</layer>
+		<layer name="bar1">
+			<block name="bar2">
+				<collection name="bar3">
+					<component name="bar4" filter="bar1">
+						<unit mrp="another.mrp"/>
+					</component>
+				</collection>
+			</block>
+		</layer>
+		<layer name="bash" levels="low">
+			<block name="bash2" level="low">
+				<collection name="bash2">
+					<component name="bash3" filter="bash4">
+						<unit mrp="yetanother.mrp"/>
+					</component>
+				</collection>
+				<collection name="bash5">
+					<component name="bash6" filter="bash4">
+						<unit bldFile="group" mrp="fudge.mrp"/>
+					</component>
+				</collection>
+			</block>
+		</layer>
+	</systemModel>
+</SystemDefinition>

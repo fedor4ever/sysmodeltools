@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.symbian.smt.gui.test Fragment
+Bundle-SymbolicName: com.symbian.smt.gui.test
+Bundle-Version: 1.0.0
+Bundle-Vendor: Symbian Software Ltd.
+Fragment-Host: com.symbian.smt.gui
+Require-Bundle: org.junit;bundle-version="3.8.2"

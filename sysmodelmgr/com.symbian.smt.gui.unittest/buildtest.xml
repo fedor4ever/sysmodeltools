@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.symbian.smt.gui.unittest" basedir=".">
+		
+	<!-- User Property -->
+	<property name="reports.dir" value="${basedir}/report" />
+	<property name="coverage.dir" value="${reports.dir}/coverage" />
+	<property name="junit.dir" value="${reports.dir}/junit" />
+	
+	<property name="main.build" value="${basedir}/build.xml/" />
+
+	<target name="clean" description="Clean the plug-in: com.symbian.smt.gui.unittest">
+		<ant antfile="${main.build}" target="clean" inheritall="false" />
+		<delete dir="${reports.dir}" />
+	</target>
+
+	<target name="run.junit">
+		<mkdir dir="${reports.dir}" />
+		<mkdir dir="${junit.dir}" />
+		<mkdir dir="${coverage.dir}" />
+
+		<property name="jar" value="${jars}/com.symbian.smt.gui_${version}.jar" />
+		
+		<path id="classpath.test">
+			<pathelement path="${jar}" />
+			<pathelement path="${basedir}/@dot/" />
+			<pathelement path="${basedir}/../lib/cglib-nodep-2.1_3.jar" />
+			<pathelement path="${basedir}/../lib/jmock-cglib-1.1.0.jar" />
+			<pathelement path="${basedir}/../lib/jmock-1.1.0.jar" />
+			<pathelement path="${basedir}/../lib/emma.jar" />
+			<pathelement path="${basedir}/../lib/junit-4.1.jar" />
+			
+			<pathelement path="${basedir}/../com.symbian.smt.gui/@dot" />
+			<pathelement path="${basedir}/../com.symbian.smt.gui/bin" />
+		</path>
+		
+		<path id="required.plugins">
+			<fileset dir="${basedir}/../shared/">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+		
+		
+		<junit printsummary="withOutAndErr" fork="yes" haltonfailure="no" failureproperty="junit.failed">
+			<classpath>
+				<path refid="classpath.test" />
+				<path refid="required.plugins" />
+			</classpath>
+			<formatter type="xml" />
+			<formatter type="plain" />
+			<batchtest todir="${junit.dir}">
+				<fileset dir="${basedir}/src">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+			<jvmarg value="-Djava.library.path=${basedir}/../shared;${java.library.path}" />
+			<jvmarg value="-Demma.coverage.out.file=${coverage.dir}/smtgui_runtime.ec " />
+		</junit>
+
+		<!--<fail message="JUnit test failure." if="junit.failed" />-->
+	</target>
+
+	<target name="gather.results">
+		<copy todir="${destination.results.folder}" failonerror="true" overwrite="true">
+			<fileset dir="${reports.dir}" />
+		</copy>
+	</target>
+
+</project>

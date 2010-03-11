@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PDE Test Utilities Plug-in
+Bundle-SymbolicName: com.symbian.pde.test.utils;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Eclipse-AutoStart: true
+Export-Package: com.symbian.pde.test.utils
+Require-Bundle: org.junit;bundle-version="3.8.2",
+ org.eclipse.jdt.junit;bundle-version="3.3.2",
+ org.apache.ant;bundle-version="1.7.0"
